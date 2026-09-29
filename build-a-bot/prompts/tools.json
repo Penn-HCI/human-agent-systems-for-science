@@ -1,0 +1,46 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "list_files",
+      "description": "List files and folders under a path in the working directory (e.g. 'data' or 'data/raw_transcripts'), with sizes in bytes.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string", "description": "Relative path; default '.'"}
+        }
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "read_file",
+      "description": "Read part of a text file in the working directory. Use offset to page through long files.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "path": {"type": "string"},
+          "offset": {"type": "integer", "description": "Character offset to start at; default 0"},
+          "max_chars": {"type": "integer", "description": "Default 5000, at most {max_tool_output}"}
+        },
+        "required": ["path"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "run_python",
+      "description": "Save a Python script as scripts/<name>.py and run it from the working directory. Returns its exit code, stdout and stderr. Reusing a name overwrites that script.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string", "description": "Short snake_case name, e.g. 'task_time_summary'"},
+          "code": {"type": "string"}
+        },
+        "required": ["name", "code"]
+      }
+    }
+  }
+]
