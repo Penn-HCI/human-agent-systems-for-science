@@ -16,3 +16,4 @@
 - The agent must _not_ be allowed to list files in my home folder.
 - The sandbox folder sticks around post-execution so I can look at the files produced.
 - Keep the reasoning details around between steps.
+- Be able to restart the agent from a particular step, e.g. to try different system prompts.

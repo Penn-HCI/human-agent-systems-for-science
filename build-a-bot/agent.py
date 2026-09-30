@@ -1,15 +1,17 @@
 """Scientific discovery agent: writes data processing scripts, runs them, reads
-the outputs, and answers research questions about the files in data/.
+the outputs, and answers research questions about a dataset in data/<name>/.
 
-    uv run python agent.py "Which task took participants longest on average?"
-    uv run python agent.py --questions questions.md --budget 2.00
+    uv run python agent.py --data study1 "Which task took participants longest on average?"
+    uv run python agent.py --data study1 --questions questions.md --budget 2.00
+    uv run python agent.py --resume runs/20260929-153432 --from-step 13
 
 Each run gets a folder runs/<timestamp>/ holding the scripts the model wrote,
-their outputs, the full message transcript, and the final answer.
+their outputs, the full message transcript, the final answer, and steps.txt
+(what happened at each step, for choosing a --from-step).
 
 Scripts run under macOS's sandbox (sandbox-exec) with no network access and
 can't launch other programs or send requests to other apps. They
-can read data/ and the Python install, but nothing else in your home folder;
+can read their one dataset and the Python install, but nothing else in your home folder;
 they can write only inside the run folder. They get a stripped environment, so
 the API key is never visible to them. All model calls go through
 zdr_openrouter.chat(), which only routes to zero-data-retention endpoints.
@@ -47,9 +49,9 @@ def prompt(filename, **values):
     return text
 
 
-def sandbox_profile(run_dir):
-    """Seatbelt profile: no network; read data/, the run folder and Python only; write the run folder only."""
-    readable = [p.resolve() for p in (DATA, run_dir, Path(sys.prefix), Path(sys.base_prefix))]
+def sandbox_profile(run_dir, dataset):
+    """Seatbelt profile: no network; read the dataset, the run folder and Python only; write the run folder only."""
+    readable = [p.resolve() for p in (dataset, run_dir, Path(sys.prefix), Path(sys.base_prefix))]
     home = Path.home()
     # Folders between home and each readable path (e.g. ~/github): scripts may stat
     # them so path lookups work, but not list their contents.
@@ -73,18 +75,21 @@ def sandbox_profile(run_dir):
 
 
 class Workspace:
-    def __init__(self, run_dir):
+    def __init__(self, run_dir, dataset):
+        """A run folder whose data/ link points at one dataset folder, e.g. data/study1."""
         self.dir = run_dir
+        self.dataset = dataset.resolve()
         (run_dir / "scripts").mkdir(parents=True)
         (run_dir / "outputs").mkdir()
-        (run_dir / "data").symlink_to(DATA)
+        (run_dir / "data").symlink_to(self.dataset)
+        (run_dir / "dataset.txt").write_text(dataset.name + "\n")
         self.profile = run_dir / "sandbox.sb"
-        self.profile.write_text(sandbox_profile(run_dir))
+        self.profile.write_text(sandbox_profile(run_dir, self.dataset))
 
     def resolve(self, rel):
-        """Resolve a model-supplied path, refusing anything outside the run folder or data/."""
+        """Resolve a model-supplied path, refusing anything outside the run folder or its dataset."""
         p = (self.dir / (rel or ".")).resolve()
-        for root in (self.dir.resolve(), DATA.resolve()):
+        for root in (self.dir.resolve(), self.dataset):
             if p == root or root in p.parents:
                 return p
         raise ValueError("path is outside the working directory: " + rel)
@@ -129,6 +134,8 @@ class Workspace:
             result = "exit code {}\n--- stdout\n{}\n--- stderr\n{}".format(r.returncode, r.stdout, r.stderr)
         except subprocess.TimeoutExpired:
             result = "timed out after {}s".format(SCRIPT_TIMEOUT)
+        # Show paths relative to the run folder, so output reads the same in every run folder.
+        result = result.replace(str(self.dir.resolve()) + "/", "")
         (self.dir / "outputs" / (name + ".log")).write_text(result)
         return truncate(result)
 
@@ -161,22 +168,72 @@ def describe(call):
     return "{}({})".format(fn["name"], ", ".join("{}={!r}".format(k, v) for k, v in args.items()))
 
 
-def run(questions, model=DEFAULT_MODEL, max_steps=30, budget=1.00):
-    run_dir = RUNS / dt.datetime.now().strftime("%Y%m%d-%H%M%S")
-    ws = Workspace(run_dir)
-    shutil.copytree(PROMPTS, run_dir / "prompts")  # record the prompts this run used
-    tools = json.loads(prompt("tools.json"))
+def dataset_dir(name):
+    """data/<name>, or exit with a list of the datasets that exist."""
+    d = DATA / (name or "")
+    if name and d.parent == DATA and d.is_dir():
+        return d
+    names = sorted(p.name for p in DATA.iterdir() if p.is_dir())
+    sys.exit("choose a dataset in data/ with --data: " + ", ".join(names))
+
+
+def new_workspace(dataset):
+    stamp = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
+    run_dir, n = RUNS / stamp, 2
+    while run_dir.exists():  # two runs started in the same second
+        run_dir, n = RUNS / "{}-{}".format(stamp, n), n + 1
+    ws = Workspace(run_dir, dataset_dir(dataset))
+    shutil.copytree(PROMPTS, ws.dir / "prompts")  # record the prompts this run used
+    print("run folder:", ws.dir.relative_to(ROOT), "| dataset:", dataset)
+    return ws
+
+
+def start(questions, dataset, system="system.md"):
+    """A fresh run: returns its workspace and opening messages."""
     messages = [
-        {"role": "system", "content": prompt("system.md")},
+        {"role": "system", "content": prompt(system)},
         {"role": "user", "content": prompt("task.md", questions=questions)},
     ]
+    return new_workspace(dataset), messages
+
+
+def resume(old_run, from_step, system="system.md", dataset=None):
+    """Fork `old_run` just before its step `from_step`, with the current system prompt.
+
+    Uses the old run's dataset unless `dataset` is given.
+    """
+    if dataset is None and (old_run / "dataset.txt").exists():
+        dataset = (old_run / "dataset.txt").read_text().strip()
+    old = json.loads((old_run / "transcript.json").read_text())
+    step_starts = [i for i, m in enumerate(old) if m["role"] == "assistant"]
+    if not 1 <= from_step <= len(step_starts):
+        sys.exit("{} has steps 1-{}".format(old_run, len(step_starts)))
+    messages = old[:step_starts[from_step - 1]]
+    messages[0] = {"role": "system", "content": prompt(system)}
+
+    ws = new_workspace(dataset)
+    (ws.dir / "resumed_from.txt").write_text("{} step {}\n".format(old_run, from_step))
+    # Recreate the files the earlier steps made by rerunning their scripts (no model calls),
+    # and warn if a script's output changed, e.g. because data/ changed since the original run.
+    old_prefix = str(old_run.resolve()) + "/"  # runs before paths were made relative
+    recorded = {m["tool_call_id"]: m["content"].replace(old_prefix, "") for m in messages if m["role"] == "tool"}
+    for m in messages:
+        for call in m.get("tool_calls") or []:
+            if call["function"]["name"] == "run_python" and call_tool(ws, call) != recorded.get(call["id"]):
+                print("  warning: replayed {} gave different output than the original run".format(describe(call)))
+    return ws, messages
+
+
+def run(ws, messages, first_step=1, model=DEFAULT_MODEL, max_steps=30, budget=1.00):
+    """The agent loop: call the model, run the tools it asks for, repeat until it answers."""
+    run_dir = ws.dir
+    tools = json.loads(prompt("tools.json"))
     provider = {"sort": "throughput"}  # prefer the fastest provider
     if not model.startswith("anthropic/"):
         provider.update(MIN_FP8)
     spent = 0.0
-    print("run folder:", run_dir.relative_to(ROOT))
 
-    for step in range(1, max_steps + 1):
+    for step in range(first_step, max_steps + 1):
         out_of_room = step == max_steps or spent >= budget
         if out_of_room:
             messages.append({"role": "user", "content": prompt("wrap_up.md")})
@@ -191,13 +248,22 @@ def run(questions, model=DEFAULT_MODEL, max_steps=30, budget=1.00):
         if not calls:
             answer = msg.get("content") or ""
             (run_dir / "answer.md").write_text(answer)
+            log_step(run_dir, step, spent, "final answer")
             print("\n" + answer)
-            print("\n[{} steps, ${:.4f}] answer saved to {}".format(step, spent, (run_dir / "answer.md").relative_to(ROOT)))
+            print("\n[${:.4f}] answer saved to {}".format(spent, (run_dir / "answer.md").relative_to(ROOT)))
             return answer
         for call in calls:
-            print("  step {:>2} ${:.4f}  {}".format(step, spent, describe(call)))
+            log_step(run_dir, step, spent, describe(call))
             messages.append({"role": "tool", "tool_call_id": call["id"], "content": call_tool(ws, call)})
         save_transcript(run_dir, messages)
+
+
+def log_step(run_dir, step, spent, what):
+    """Print a step line and add it to steps.txt, for picking a --from-step later."""
+    line = "step {:>2} ${:.4f}  {}".format(step, spent, what)
+    print("  " + line)
+    with (run_dir / "steps.txt").open("a") as f:
+        f.write(line + "\n")
 
 
 def save_transcript(run_dir, messages):
@@ -211,7 +277,19 @@ if __name__ == "__main__":
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--max-steps", type=int, default=30)
     ap.add_argument("--budget", type=float, default=1.00, help="USD; the agent wraps up once this is spent")
+    ap.add_argument("--data", metavar="NAME", help="dataset folder in data/ (resumed runs default to the original's)")
+    ap.add_argument("--system", default="system.md", help="system prompt file in prompts/")
+    ap.add_argument("--resume", type=Path, metavar="RUN_FOLDER", help="continue an earlier run (with --from-step)")
+    ap.add_argument("--from-step", type=int, help="step of the earlier run to redo onward (see its steps.txt)")
     a = ap.parse_args()
-    if not (a.question or a.questions):
-        ap.error("give a question or --questions FILE")
-    run(a.questions.read_text() if a.questions else a.question, a.model, a.max_steps, a.budget)
+    if a.resume:
+        if not a.from_step:
+            ap.error("--resume needs --from-step")
+        ws, messages = resume(a.resume, a.from_step, a.system, a.data)
+        first_step = a.from_step
+    elif a.question or a.questions:
+        ws, messages = start(a.questions.read_text() if a.questions else a.question, a.data, a.system)
+        first_step = 1
+    else:
+        ap.error("give a question, --questions FILE, or --resume RUN_FOLDER")
+    run(ws, messages, first_step, a.model, a.max_steps, a.budget)

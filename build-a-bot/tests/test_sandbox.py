@@ -19,6 +19,8 @@ import agent  # noqa: E402
 
 ENV_FILE = ROOT / ".env"
 HOME = Path.home()
+# Two tiny made-up datasets: the test run uses study_a; study_b stands in for another dataset.
+FIXTURES = ROOT / "tests" / "fixtures"
 
 # (description, expected, code). Each code snippet tries one thing.
 CASES = [
@@ -55,6 +57,10 @@ CASES = [
      f"import os; os.listdir({str(HOME / '.local')!r})"),
 
     # --- writing outside the run folder
+    ("read a file in another dataset", "blocked",
+     f"open({str(FIXTURES / 'study_b' / 'other.csv')!r}).read()"),
+    ("list the other datasets", "blocked",
+     f"import os; os.listdir({str(FIXTURES)!r})"),
     ("write into data/", "blocked",
      "open('data/new.txt', 'w').write('x')"),
     ("write into the project folder", "blocked",
@@ -108,7 +114,7 @@ assert status == 0, 'LaunchServices refused: %d' % status
 
 def main():
     run_dir = ROOT / "runs" / ("sandbox-test-" + dt.datetime.now().strftime("%Y%m%d-%H%M%S"))
-    ws = agent.Workspace(run_dir)
+    ws = agent.Workspace(run_dir, FIXTURES / "study_a")
     failures = 0
     for i, (desc, expected, code) in enumerate(CASES, 1):
         script = code + "\nprint('SUCCEEDED')"
