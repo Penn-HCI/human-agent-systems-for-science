@@ -1,4 +1,5 @@
 data
+protected_data
 .env
 .venv/
 __pycache__/

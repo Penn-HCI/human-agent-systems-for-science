@@ -31,6 +31,9 @@ DATA = ROOT / "data"
 RUNS = ROOT / "runs"
 SCRIPT_TIMEOUT = 300  # seconds
 MAX_TOOL_OUTPUT = 20_000  # characters of tool output sent back to the model
+# Skip providers that compress open-weight models below fp8 (e.g. fp4), which hurts multi-step tool use.
+# Claude endpoints don't report a precision, so this isn't applied to them.
+MIN_FP8 = {"quantizations": ["fp8", "bf16", "fp16", "fp32"]}
 
 PROMPTS = ROOT / "prompts"
 
@@ -167,6 +170,9 @@ def run(questions, model=DEFAULT_MODEL, max_steps=30, budget=1.00):
         {"role": "system", "content": prompt("system.md")},
         {"role": "user", "content": prompt("task.md", questions=questions)},
     ]
+    provider = {"sort": "throughput"}  # prefer the fastest provider
+    if not model.startswith("anthropic/"):
+        provider.update(MIN_FP8)
     spent = 0.0
     print("run folder:", run_dir.relative_to(ROOT))
 
@@ -174,10 +180,11 @@ def run(questions, model=DEFAULT_MODEL, max_steps=30, budget=1.00):
         out_of_room = step == max_steps or spent >= budget
         if out_of_room:
             messages.append({"role": "user", "content": prompt("wrap_up.md")})
-        data = chat(messages, model=model, tools=tools, tool_choice="none" if out_of_room else "auto", max_tokens=8000)
+        data = chat(messages, model=model, provider=provider, tools=tools, tool_choice="none" if out_of_room else "auto", max_tokens=8000)
         spent += data["usage"].get("cost", 0)
         msg = data["choices"][0]["message"]
-        messages.append({k: v for k, v in msg.items() if k in ("role", "content", "tool_calls")})
+        # Keep reasoning_details so reasoning models (e.g. DeepSeek) see their earlier thinking.
+        messages.append({k: v for k, v in msg.items() if k in ("role", "content", "tool_calls", "reasoning_details")})
         save_transcript(run_dir, messages)
 
         calls = msg.get("tool_calls") or []
