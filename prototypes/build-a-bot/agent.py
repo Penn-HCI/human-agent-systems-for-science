@@ -3,6 +3,7 @@ the outputs, and answers research questions about a dataset in data/<name>/.
 
     uv run python agent.py --data study1 "Which task took participants longest on average?"
     uv run python agent.py --data study1 --questions questions.md --budget 2.00
+    uv run python agent.py --data study1 --explore --budget 3.00
     uv run python agent.py --resume runs/20260929-153432 --from-step 13
 
 Each run gets a folder runs/<timestamp>/ holding the scripts the model wrote,
@@ -189,10 +190,14 @@ def new_workspace(dataset):
 
 
 def start(questions, dataset, system="system.md"):
-    """A fresh run: returns its workspace and opening messages."""
+    """A fresh run: returns its workspace and opening messages.
+
+    With no `questions`, the agent comes up with its own (prompts/explore.md).
+    """
+    task = prompt("task.md", questions=questions) if questions else prompt("explore.md")
     messages = [
         {"role": "system", "content": prompt(system)},
-        {"role": "user", "content": prompt("task.md", questions=questions)},
+        {"role": "user", "content": task},
     ]
     return new_workspace(dataset), messages
 
@@ -273,6 +278,7 @@ def save_transcript(run_dir, messages):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("question", nargs="?", help="research question(s)")
+    ap.add_argument("--explore", action="store_true", help="come up with its own research questions and answer the most interesting")
     ap.add_argument("--questions", type=Path, help="file of research questions")
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--max-steps", type=int, default=30)
@@ -287,9 +293,9 @@ if __name__ == "__main__":
             ap.error("--resume needs --from-step")
         ws, messages = resume(a.resume, a.from_step, a.system, a.data)
         first_step = a.from_step
-    elif a.question or a.questions:
+    elif a.question or a.questions or a.explore:
         ws, messages = start(a.questions.read_text() if a.questions else a.question, a.data, a.system)
         first_step = 1
     else:
-        ap.error("give a question, --questions FILE, or --resume RUN_FOLDER")
+        ap.error("give a question, --questions FILE, --explore, or --resume RUN_FOLDER")
     run(ws, messages, first_step, a.model, a.max_steps, a.budget)

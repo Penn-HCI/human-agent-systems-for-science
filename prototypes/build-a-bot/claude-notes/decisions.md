@@ -17,3 +17,4 @@
 - The sandbox folder sticks around post-execution so I can look at the files produced.
 - Keep the reasoning details around between steps.
 - Be able to restart the agent from a particular step, e.g. to try different system prompts.
+- Allow the agent to come up with its own research questions and try to maximize for the most interesting.
