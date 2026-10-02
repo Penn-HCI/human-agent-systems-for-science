@@ -5,8 +5,11 @@
 Imagine we had perfect agents for doing science. What then would good science process look like? In this class, we try to answer this question. We look at the seams where people will work with agents and develop new kinds of infrastructure to help them work together better. We start by building a simple scientific discovery agent and exploring mechanisms for human steering and review of agentic work. Then we expand focus. We review the broad array of processes where agents may disrupt scientific workflows, like collaborative sensemaking over data, sharing results, and building repositories of knowledge for the lab and community. In a series of assignments, we build prototype infrastructure to support envisioned scientific workflows and use them on example research problems. In a final project, students build pieces of agentic scientific infrastructure inspired by their own research or interests.
 
 **Semester**: Spring 2027
+
 **When**: Mondays and Wednesdays, 1:45-3:15pm
+
 **Location**: TBD
+
 **Audience**: Ph.D. students, Master's and Bachelor's students engaged in research 
 
 **Prerequisites**: We welcome students from the gamut of fields! But — you must know your Python. We expect you to be able to write Python yourself, pick and call programming libraries, and inspect what your code is doing. That's not because you'll be writing much code yourself. But you will be on the hook for checking that your agentic tools aren't leaking your precious research data or running up a huge bill you have to pay.
@@ -52,7 +55,7 @@ This is a rough schedule, and it will be continually updated for the next few we
 
 ## Assignments
 
-This class will have 8 assignments (also liable to be updated). Assignment #1-4 focus on augmenting _individual_ scientific activity, and #5-7 on _collaborative_ and _community_-level activity. Almost all assignments will provide opportunities for students to use the systems they are building _in their own research_.
+This class will have 8 assignments (also liable to be updated). Assignment #1-4 focus on augmenting _individual_ scientific activity, and #5-6 on _collaborative_ and _community_-level activity. Almost all assignments will provide opportunities for students to use the systems they are building in their own research.
 
 * **Assignment 1. Build your scientific "digital twin."** This is a guided activity in building a scientific discovery agent. It will take in a dataset as input, come up with research questions, explore them, and report out results. Tune it until it resembles your scientific "digital twin," producing results and outputs you fully stand behind without intervention.
 
