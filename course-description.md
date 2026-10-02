@@ -28,8 +28,8 @@ This is a rough schedule, and it will be continually updated for the next few we
 | Mon, Feb 1 | Discussion | Explainability and Steering |
 | Wed, Feb 3 | Lecture | Memory Stores |
 | Mon, Feb 8 | Discussion | Memory Stores |
-| Wed, Feb 10 | Lecture | Collaborative Scientific Sensemaking - Models |
-| Mon, Feb 15 | Discussion | Collaborative Scientific Sensemaking - Models |
+| Wed, Feb 10 | Lecture | Collaborative Scientific Sensemaking - Concepts |
+| Mon, Feb 15 | Discussion | Collaborative Scientific Sensemaking - Concepts |
 | Wed, Feb 17 | Lecture | Collaborative Scientific Sensemaking - Tools |
 | Mon, Feb 22 | Discussion | Collaborative Scientific Sensemaking - Tools |
 | Wed, Feb 24 | Lecture | Argumentation |
