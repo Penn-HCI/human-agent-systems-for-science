@@ -10,7 +10,7 @@ Imagine we had perfect agents for doing science. What then would good science pr
 
 **Location**: TBD
 
-**Audience**: Ph.D. students, Master's and Bachelor's students engaged in research 
+**Audience**: Ph.D. students, Master's and Bachelor's students engaged in research. This course is for researchers who are interested in trying out new processes for themselves and their group. Those not actively engaged in research might still be considered but will be given lower priority.
 
 **Prerequisites**: We welcome students from the gamut of fields! But — you must know your Python. We expect you to be able to write Python yourself, pick and call programming libraries, and inspect what your code is doing. That's not because you'll be writing much code yourself. But you will be on the hook for checking that your agentic tools aren't leaking your precious research data or running up a huge bill you have to pay.
 
@@ -23,7 +23,7 @@ This is a rough schedule, and it will be continually updated for the next few we
 | Date | Format | Topic |
 |---|---|---|
 | Wed, Jan 20 | Lecture | Introduction |
-| Mon, Jan 25 | Discussion | Architecture of a Scientific Discovery Agent |
+| Mon, Jan 25 | Discussion | Example Scientific Discovery Agents |
 | Wed, Jan 27 | Lecture | Explainability and Steering |
 | Mon, Feb 1 | Discussion | Explainability and Steering |
 | Wed, Feb 3 | Lecture | Memory Stores |
