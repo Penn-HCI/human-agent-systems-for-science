@@ -9,7 +9,7 @@ Imagine we had perfect agents for doing science. What then would good science pr
 **Location**: TBD
 **Audience**: Ph.D. students, Master's and Bachelor's students engaged in research 
 
-**Prerequisites**: We welcome students from the gamut of fields! But — you must know your Python. We expect you to be able to write Python yourself, pick and call programming libraries, and inspect what your code is doing. That's not because you'll be writing code yourself. But you will be on the hook for checking that your agentic tools aren't leaking your precious research data or running up a huge bill you have to pay.
+**Prerequisites**: We welcome students from the gamut of fields! But — you must know your Python. We expect you to be able to write Python yourself, pick and call programming libraries, and inspect what your code is doing. That's not because you'll be writing much code yourself. But you will be on the hook for checking that your agentic tools aren't leaking your precious research data or running up a huge bill you have to pay.
 
 **Format**: Every week, there will be 1 instructor-led lecture on Monday, and 1 discussion section where we discuss papers on the week's lecture topic on Wednesday.
 
@@ -52,11 +52,11 @@ This is a rough schedule, and it will be continually updated for the next few we
 
 ## Assignments
 
-This class will have 8 assignments (also liable to be updated). Assignment #1-4 focus on augmenting _individual_ scientific activity, and #5-7 on _collaborative_ and _community_-level activity.
+This class will have 8 assignments (also liable to be updated). Assignment #1-4 focus on augmenting _individual_ scientific activity, and #5-7 on _collaborative_ and _community_-level activity. Almost all assignments will provide opportunities for students to use the systems they are building _in their own research_.
 
 * **Assignment 1. Build your scientific "digital twin."** This is a guided activity in building a scientific discovery agent. It will take in a dataset as input, come up with research questions, explore them, and report out results. Tune it until it resembles your scientific "digital twin," producing results and outputs you fully stand behind without intervention.
 
-* **Assignment 2. Ideate with a custom LLM wiki.** Agents are supposed to help us keep track of more information in knowledge-intensive tasks. Build up a local knowledge base that actually does this for you. Three UI requirements: it has to be dead easy to add data to it; it has to produce an compact and accurate wiki that you actually want to use use; and you can query against it. Test it out by using it as a partner in ideating research project ideas.
+* **Assignment 2. Ideate with a custom LLM wiki.** Agents are supposed to help us keep track of more information in knowledge-intensive tasks. Build up a local knowledge base that actually does this for you. Three UI requirements: it has to be dead easy to add data to it; it has to produce an compact and accurate wiki that you actually want to use use; it has to ask for clarification when it doesn't know what's in your data; and you have to be able to query against it. Test it out by using it as a partner in ideating research project ideas.
 
 * **Assignment 3. Make agentic output make sense.** You will be given an output trace from a scientific discovery agent from a domain you have never worked in before. Put it in an interface that makes it make sense. A non-expert should be able to quickly assess: Does it come up with a valid result? Use appropriate methods? Does its result really matter? But they don't have the expertise! Figure out what explanations and context you have to provide in the interface so that it doesn't matter.
 
@@ -64,8 +64,6 @@ This class will have 8 assignments (also liable to be updated). Assignment #1-4 
 
 * **Assignment 5. A proactive knowledge base with many humans and agents.** Turn your wiki from Assignment 2 into a substrate that can (and will!) support collaborative science among you and your final project teammates. It must have features for---descriptions of claims you are working on, evidence you have collected, ability to collaboratively edit the wiki without conflict, agents can contribute to wiki, and participants are notified when new evidence is brought to bear on key claims. Use this wiki to support your group's creation of a final project proposal.
 
-* **Assignment 6. Bifurcating the research report.** 
+* **Assignment 6. Bifurcating the research report.** Create a set of publications that represent one possibility of the future of publication. Given a trace of scientific activity, generate (1) a document that represents the sophistication of _human_ decisions of the scientist, which could be used in training and promotion settings (2) a document representing the actual results in a more compact but expandable form. Could this be the future of scientific publishing?
 
-* **Assignment 7. A shared and extensible repository of knowledge.**
-
-* **Assignment 8. Final project.**
+* **Assignment 7. Final project.** To be worked on in the last 2 months of the class. Develop a piece of scientific infrastructure designed to fit a human-agent scientific future. Work on something inspired by your own research or interests—you are strongly encouraged to make something that you yourself or your lab would use.
