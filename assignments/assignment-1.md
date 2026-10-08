@@ -103,7 +103,7 @@ You will build this agent in layers of increasing sophistication. Implementng th
 
 Fill out the submission form here. Be ready to provide a _public_ link to your GitHub repository (does not need to include your custom data if it is protected), answer files representing your bots' capabilities on the provided dataset and your own dataset, and to answer questions about any additional features you implemented or results you achieved.
 
-# Debt
+<!-- # Debt
 
 Need to figure out how sandboxing works on Mac.
 
@@ -117,4 +117,4 @@ Tips for students who are using Claude Code for the first time:
 * Maybe the explainable report in the later assignment can also include visuals, and excerpts from related passages about the suitability of particular techniques? And a description of how widely a technique is used in related work? Maybe we could also have some way of testing the readability of those reports?
 * Experimentation bots are just too darn expensive... is there some way I can get us to build them anyway?
 * Check on quality of AutoRubric tool
-* Create a submission form for the project. We'll connect this to Supabase and do backups. We'll strive to keep the code in the submission form as simple as humanly possible.
+* Create a submission form for the project. We'll connect this to Supabase and do backups. We'll strive to keep the code in the submission form as simple as humanly possible. -->

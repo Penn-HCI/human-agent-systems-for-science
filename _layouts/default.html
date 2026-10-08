@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title and page.title != site.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+  </head>
+  <body>
+    {% unless page.url == "/" %}
+    <header>
+      <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+    </header>
+    {% endunless %}
+    <main>
+      {% comment %}Put the watermark right after the page title, so the text below wraps around it.{% endcomment %}
+      {% capture title_and_watermark %}</h1>
+      <figure class="watermark">
+        <img src="{{ '/assets/images/watermark.svg' | relative_url }}" alt="">
+        <figcaption>Remix <a href="https://www.pennhci.com/">Penn HCI</a> logo</figcaption>
+      </figure>
+      {% endcapture %}
+      {{ content | replace_first: "</h1>", title_and_watermark }}
+    </main>
+  </body>
+</html>
