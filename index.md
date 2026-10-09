@@ -4,7 +4,7 @@ Imagine we had perfect agents for doing science. What then would good science pr
 
 This course will have a human-computer interaction flavor. We will of course read papers and hear from speakers in AI and build many prototypes that use agents---but be ready to dive deep into concepts from human-computer interaction that point the way to new solutions.
 
-**Audience**: This course is for researchers who are interested in trying out new processes for themselves and their group---mainly Ph.D. students engaged in research, but it is also open to those at other levels.  Those not actively engaged in research might still be considered but will be given lower priority.
+**Audience**: Ph.D. students, Master's, Bachelor's students, and others engaged in research. This course is for researchers who are interested in trying out new processes for themselves and their group. Those not actively engaged in research might still be considered but will be given lower priority.
 
 **Prerequisites**: We welcome students from the gamut of fields! But — you must know your Python. We expect you to be able to write Python yourself, pick and call programming libraries, and inspect what your code is doing. That's not because you'll be writing much code yourself. But you will be on the hook for checking that your agentic tools aren't leaking your precious research data or running up a huge bill you have to pay.
 
