@@ -6,147 +6,17 @@
     <path d="M181,32 V150 L12,360 Q0,386 30,386 H393 Q423,386 411,360 L242,150 V32 Z"/>
   </g>
   <!-- Pink triangle with two robot arms: out to an elbow, down to C-shaped clamps below it -->
-  <g fill="none" stroke="#ee3d6e" stroke-linecap="round" stroke-linejoin="round" opacity="0.441">
+  <!-- Scaled to 70% around its bottom-left corner, where it overlaps the flask -->
+  <g fill="none" stroke="#ee3d6e" stroke-linecap="round" stroke-linejoin="round" opacity="0.441"
+     transform="translate(218 151) scale(0.7) translate(-218 -151)">
     <path d="M305.5,0 L393,151 H218 Z" fill="#ee3d6e" stroke="none"/>
     <path d="M258,82 Q216,88 206,134 M353,82 Q395,88 405,134" stroke-width="9"/>
     <path d="M196.5,151 A11,11 0 1 1 215.5,151 M395.5,151 A11,11 0 1 1 414.5,151" stroke-width="6"/>
   </g>
-  <svg x="268" y="210" width="85" height="130">
-  <defs>
-    <clipPath id="clip0">
-      <rect width="85" height="130" fill="none"/>
-    </clipPath>
-  </defs>
-  <g id="Repeat_Grid_12" data-name="Repeat Grid 12" opacity="0.421" clip-path="url(#clip0)">
-    <g transform="translate(-2609 118)">
-      <circle id="Ellipse_10" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 118)">
-      <circle id="Ellipse_10-2" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 118)">
-      <circle id="Ellipse_10-3" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2543 118)">
-      <circle id="Ellipse_10-4" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 137)">
-      <circle id="Ellipse_10-5" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 137)">
-      <circle id="Ellipse_10-6" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 137)">
-      <circle id="Ellipse_10-7" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2543 137)">
-      <circle id="Ellipse_10-8" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 156)">
-      <circle id="Ellipse_10-9" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 156)">
-      <circle id="Ellipse_10-10" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 156)">
-      <circle id="Ellipse_10-11" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2543 156)">
-      <circle id="Ellipse_10-12" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 175)">
-      <circle id="Ellipse_10-13" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 175)">
-      <circle id="Ellipse_10-14" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 175)">
-      <circle id="Ellipse_10-15" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2543 175)">
-      <circle id="Ellipse_10-16" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 194)">
-      <circle id="Ellipse_10-17" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 194)">
-      <circle id="Ellipse_10-18" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 194)">
-      <circle id="Ellipse_10-19" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2543 194)">
-      <circle id="Ellipse_10-20" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 213)">
-      <circle id="Ellipse_10-21" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 213)">
-      <circle id="Ellipse_10-22" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 213)">
-      <circle id="Ellipse_10-23" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2543 213)">
-      <circle id="Ellipse_10-24" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 232)">
-      <circle id="Ellipse_10-25" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 232)">
-      <circle id="Ellipse_10-26" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 232)">
-      <circle id="Ellipse_10-27" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2543 232)">
-      <circle id="Ellipse_10-28" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
+  <!-- Two heads in profile (were the dot grids), facing each other -->
+  <defs><path id="head" d="M32,120 C30,108 28,100 26,96 C8,86 2,52 14,30 C26,8 58,0 76,12 C90,22 92,36 89,46 L99,62 L90,66 C93,70 92,73 88,74 C92,77 92,80 89,82 C91,88 88,93 78,93 C72,93 70,96 70,104 L71,120 Z"/></defs>
+  <g fill="#4a72b7" opacity="0.421">
+    <use href="#head" transform="translate(108 22) scale(0.9)"/>
+    <use href="#head" transform="translate(374 199) scale(-1.275 1.275)"/>
   </g>
-</svg>
-  <svg x="123" y="40" width="60" height="73">
-  <defs>
-    <clipPath id="clip1">
-      <rect width="60" height="73" fill="none"/>
-    </clipPath>
-  </defs>
-  <g id="Repeat_Grid_11" data-name="Repeat Grid 11" opacity="0.421" clip-path="url(#clip1)">
-    <g transform="translate(-2609 118)">
-      <circle id="Ellipse_10" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 118)">
-      <circle id="Ellipse_10-2" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 118)">
-      <circle id="Ellipse_10-3" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 137)">
-      <circle id="Ellipse_10-4" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 137)">
-      <circle id="Ellipse_10-5" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 137)">
-      <circle id="Ellipse_10-6" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 156)">
-      <circle id="Ellipse_10-7" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 156)">
-      <circle id="Ellipse_10-8" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 156)">
-      <circle id="Ellipse_10-9" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2609 175)">
-      <circle id="Ellipse_10-10" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2587 175)">
-      <circle id="Ellipse_10-11" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-    <g transform="translate(-2565 175)">
-      <circle id="Ellipse_10-12" data-name="Ellipse 10" cx="5.5" cy="5.5" r="5.5" transform="translate(2609 -118)" fill="#4a72b7"/>
-    </g>
-  </g>
-</svg>
 </svg>
