@@ -1,0 +1,5 @@
+model,gave_answer_rate,degenerate_rate,fluency,helpfulness,ease,joy,num_queries,letter_accuracy,clue_accuracy
+ai2-jumbo,0.068,0.324,2.304,2.203,3.076,2.231,31.342,0.547,0.438
+davinci,0.059,0.336,2.257,1.919,3.324,2.176,33.135,0.558,0.465
+text-babbage,0.042,0.017,3.137,2.274,3.781,2.758,34.378,0.471,0.373
+text-davinci,0.128,0.047,3.654,3.141,4.346,3.42,34.744,0.634,0.528

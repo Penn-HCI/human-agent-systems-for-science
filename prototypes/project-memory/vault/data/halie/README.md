@@ -1,0 +1,48 @@
+<div align="center">
+
+<img src="./halie.png" width="350px"/>
+
+**An Interactive Evaluation Framework for Human-Language Model Interaction**
+
+</div>
+
+## Overview
+
+This repository contains the code for HALIE (Human-AI Language-based Interaction Evaluation), a new framework for evaluating human-LM interaction. It is designed to be flexible and extensible to support a variety of interactive tasks beyond the five tasks we considered in our paper: **social dialogue, question answering, crossword puzzles, text summarization, and metaphor generation**. All the code for the five tasks are included in this repository.
+
+- Paper: [Evaluating Human-Language Model Interaction](https://arxiv.org/abs/2212.09746) (Mina Lee, Megha Srivastava, Amelia Hardy, John Thickstun, Esin Durmus, Ashwin Paranjape, Ines Gerard-Ursin, Xiang Lisa Li, Faisal Ladhak, Frieda Rong, Rose E. Wang, Minae Kwon, Joon Sung Park, Hancheng Cao, Tony Lee, Rishi Bommasani, Michael Bernstein, Percy Liang, 2022)
+- Blog: [Observations from HALIE: A Closer Look at Human-LM Interactions in Information-Seeking Contexts](https://crfm.stanford.edu/2023/10/11/halie.html) (Megha Srivastava, John Thickstun, 2023)
+
+If you have any questions, please reach out to [Mina Lee](https://minalee.info/) at `minalee@stanford.edu`. For scenario-specific questions or feedback (e.g. task design, data issues), please include the following authors:
+* **Social Dialogue**: [Amelia Hardy](https://www.linkedin.com/in/ameliahardy/) (`ahardy@stanford.edu`), [Ashwin Paranjape](https://ashwinparanjape.github.io/) (`ashwinp@cs.stanford.edu`), [Ines Gerard-Ursin](https://www.linkedin.com/in/ines-gerard-ursin/?originalSubdomain=uk) (`ines.gerard-ursin20@imperial.ac.uk`), [Esin Durmus](https://esdurmus.github.io/) (`esindurmus@cs.stanford.edu`), [Faisal Ladhak](https://www.cs.columbia.edu/~faisal/) (`faisal@cs.columbia.edu`), [Joon Sung Park](http://www.joonsungpark.com/) (`joonspk@stanford.edu`)
+* **Question Answering**: [Megha Srivastava](https://cs.stanford.edu/~megha) (`megha@cs.stanford.edu`), [John Thickstun](https://johnthickstun.com/) (`jthickstun@stanford.edu`), [Rose Wang](https://rosewang2008.github.io/) (`rewang@cs.stanford.edu`), [Minae Kwon](https://stanford.edu/~mnkwon/)  (`mnkwon@cs.stanford.edu`)
+* **Crossword Puzzles**: [Megha Srivastava](https://cs.stanford.edu/~megha) (`megha@cs.stanford.edu`)
+* **Text Summarization**: [Esin Durmus](https://esdurmus.github.io/) (`esindurmus@cs.stanford.edu`), [Faisal Ladhak](https://www.cs.columbia.edu/~faisal/) (`faisal@cs.columbia.edu`)
+* **Metaphor Generation**: [Frieda Rong](https://friedeggs.github.io/) (`rongf@cs.stanford.edu`), [Xiang Lisa Li](https://xiangli1999.github.io/) (`xlisali@stanford.edu`)
+
+---
+
+## Contents
+- [Data](#Data)
+- [Interfaces](#Interfaces)
+
+---
+
+## Data
+
+See [README](./data/README.md) for a more comprehensieve overview of data in HALIE.
+
+**Standardized data.** If you simply want to take a look at our data or use it to perform your own analysis, you can find the standardized data for the five tasks in `./data/std`. 
+
+**Raw data.** On the other hand, if you want to standardize data from raw data we collected (`./data/raw`), we have provided that data as well.
+
+**Your data.** If you are interested in extending HALIE to support a new task, please create a PR or contact [Mina Lee](https://minalee.info/) at `minalee@stanford.edu`.
+
+---
+
+## Interfaces
+
+We currently provide code for the interfaces used to collect interaction traces for both the **crossword puzzles** and **question answering** scenarios in HALIE,  located in `./interfaces`. 
+
+We unfortunately do not currently release code for the **text summarization**, **metaphor generation**, and **social dialogue** scenarios. Those scenarios were built using code from [CoAuthor](https://github.com/minalee-research/coauthor-interface) and [Chirpy Cardinal](https://stanfordnlp.github.io/chirpycardinal/), and please feel free to create a PR for any information.    
+

@@ -1,0 +1,101 @@
+analysis,x,y,n,rho,p
+all sessions,gave_answer_rate,ease,304,0.186,0.0012
+all sessions,gave_answer_rate,joy,264,0.29,0.0
+all sessions,gave_answer_rate,num_queries,305,0.081,0.1574
+all sessions,gave_answer_rate,letter_accuracy,305,0.089,0.1227
+all sessions,gave_answer_rate,clue_accuracy,305,0.091,0.1132
+all sessions,degenerate_rate,ease,304,-0.315,0.0
+all sessions,degenerate_rate,joy,264,-0.321,0.0
+all sessions,degenerate_rate,num_queries,305,0.075,0.1927
+all sessions,degenerate_rate,letter_accuracy,305,-0.028,0.6218
+all sessions,degenerate_rate,clue_accuracy,305,-0.019,0.7407
+all sessions,fluency,ease,304,0.572,0.0
+all sessions,fluency,joy,264,0.63,0.0
+all sessions,fluency,num_queries,304,0.081,0.1566
+all sessions,fluency,letter_accuracy,304,0.032,0.5732
+all sessions,fluency,clue_accuracy,304,0.03,0.599
+all sessions,helpfulness,ease,304,0.476,0.0
+all sessions,helpfulness,joy,264,0.718,0.0
+all sessions,helpfulness,num_queries,304,0.166,0.0037
+all sessions,helpfulness,letter_accuracy,304,-0.011,0.852
+all sessions,helpfulness,clue_accuracy,304,-0.017,0.7649
+all sessions,gave_answer_rate,fluency,304,0.31,0.0
+all sessions,gave_answer_rate,helpfulness,304,0.44,0.0
+all sessions,degenerate_rate,fluency,304,-0.458,0.0
+all sessions,degenerate_rate,helpfulness,304,-0.273,0.0
+all sessions,num_queries,letter_accuracy,305,-0.357,0.0
+within puzzle,gave_answer_rate,ease,304,0.182,0.0015
+within puzzle,gave_answer_rate,joy,264,0.287,0.0
+within puzzle,gave_answer_rate,num_queries,305,0.069,0.2322
+within puzzle,gave_answer_rate,letter_accuracy,305,0.086,0.1342
+within puzzle,gave_answer_rate,clue_accuracy,305,0.093,0.1042
+within puzzle,degenerate_rate,ease,304,-0.311,0.0
+within puzzle,degenerate_rate,joy,264,-0.321,0.0
+within puzzle,degenerate_rate,num_queries,305,0.08,0.1653
+within puzzle,degenerate_rate,letter_accuracy,305,-0.041,0.4753
+within puzzle,degenerate_rate,clue_accuracy,305,-0.032,0.5798
+within puzzle,fluency,ease,304,0.557,0.0
+within puzzle,fluency,joy,264,0.62,0.0
+within puzzle,fluency,num_queries,304,0.068,0.2406
+within puzzle,fluency,letter_accuracy,304,0.065,0.2583
+within puzzle,fluency,clue_accuracy,304,0.066,0.2532
+within puzzle,helpfulness,ease,304,0.461,0.0
+within puzzle,helpfulness,joy,264,0.684,0.0
+within puzzle,helpfulness,num_queries,304,0.153,0.0074
+within puzzle,helpfulness,letter_accuracy,304,-0.005,0.9358
+within puzzle,helpfulness,clue_accuracy,304,-0.003,0.9635
+within puzzle,gave_answer_rate,fluency,304,0.3,0.0
+within puzzle,gave_answer_rate,helpfulness,304,0.439,0.0
+within puzzle,degenerate_rate,fluency,304,-0.46,0.0
+within puzzle,degenerate_rate,helpfulness,304,-0.275,0.0
+within puzzle,num_queries,letter_accuracy,305,-0.347,0.0
+within puzzle and model,gave_answer_rate,ease,304,0.082,0.1523
+within puzzle and model,gave_answer_rate,joy,264,0.166,0.0068
+within puzzle and model,gave_answer_rate,num_queries,305,0.101,0.0778
+within puzzle and model,gave_answer_rate,letter_accuracy,305,-0.011,0.8464
+within puzzle and model,gave_answer_rate,clue_accuracy,305,-0.007,0.9003
+within puzzle and model,degenerate_rate,ease,304,-0.091,0.1125
+within puzzle and model,degenerate_rate,joy,264,-0.091,0.1412
+within puzzle and model,degenerate_rate,num_queries,305,0.191,0.0008
+within puzzle and model,degenerate_rate,letter_accuracy,305,-0.119,0.037
+within puzzle and model,degenerate_rate,clue_accuracy,305,-0.112,0.0503
+within puzzle and model,fluency,ease,304,0.469,0.0
+within puzzle and model,fluency,joy,264,0.53,0.0
+within puzzle and model,fluency,num_queries,304,0.068,0.24
+within puzzle and model,fluency,letter_accuracy,304,-0.006,0.9181
+within puzzle and model,fluency,clue_accuracy,304,-0.008,0.8931
+within puzzle and model,helpfulness,ease,304,0.375,0.0
+within puzzle and model,helpfulness,joy,264,0.641,0.0
+within puzzle and model,helpfulness,num_queries,304,0.165,0.0039
+within puzzle and model,helpfulness,letter_accuracy,304,-0.074,0.1952
+within puzzle and model,helpfulness,clue_accuracy,304,-0.075,0.1951
+within puzzle and model,gave_answer_rate,fluency,304,0.208,0.0003
+within puzzle and model,gave_answer_rate,helpfulness,304,0.318,0.0
+within puzzle and model,degenerate_rate,fluency,304,-0.156,0.0064
+within puzzle and model,degenerate_rate,helpfulness,304,-0.143,0.0125
+within puzzle and model,num_queries,letter_accuracy,305,-0.33,0.0
+one session per worker,gave_answer_rate,ease,188,0.198,0.0066
+one session per worker,gave_answer_rate,joy,168,0.199,0.0096
+one session per worker,gave_answer_rate,num_queries,189,0.07,0.3376
+one session per worker,gave_answer_rate,letter_accuracy,189,0.054,0.4589
+one session per worker,gave_answer_rate,clue_accuracy,189,0.051,0.4827
+one session per worker,degenerate_rate,ease,188,-0.42,0.0
+one session per worker,degenerate_rate,joy,168,-0.398,0.0
+one session per worker,degenerate_rate,num_queries,189,0.045,0.5397
+one session per worker,degenerate_rate,letter_accuracy,189,-0.022,0.7592
+one session per worker,degenerate_rate,clue_accuracy,189,-0.013,0.8622
+one session per worker,fluency,ease,188,0.554,0.0
+one session per worker,fluency,joy,168,0.581,0.0
+one session per worker,fluency,num_queries,188,0.078,0.2883
+one session per worker,fluency,letter_accuracy,188,0.051,0.4897
+one session per worker,fluency,clue_accuracy,188,0.056,0.4483
+one session per worker,helpfulness,ease,188,0.457,0.0
+one session per worker,helpfulness,joy,168,0.671,0.0
+one session per worker,helpfulness,num_queries,188,0.132,0.0713
+one session per worker,helpfulness,letter_accuracy,188,-0.037,0.6096
+one session per worker,helpfulness,clue_accuracy,188,-0.036,0.6204
+one session per worker,gave_answer_rate,fluency,188,0.295,0.0
+one session per worker,gave_answer_rate,helpfulness,188,0.42,0.0
+one session per worker,degenerate_rate,fluency,188,-0.51,0.0
+one session per worker,degenerate_rate,helpfulness,188,-0.349,0.0
+one session per worker,num_queries,letter_accuracy,189,-0.349,0.0

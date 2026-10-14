@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "capsule": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "prototypes/capsule/capsule.py"]
+    }
+  }
+}

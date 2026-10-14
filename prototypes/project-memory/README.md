@@ -1,0 +1,1 @@
+`halie-data-and-ui.zip` contains a cleaned up repository of the original HALIE data where I have removed the files that contain the authors analyses and visualizations and the references to them in the README, so that an agent could be 'let loose' on the data without solely replicating the authors' original findings.

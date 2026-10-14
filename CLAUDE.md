@@ -1,2 +1,3 @@
 - Keep styling and code simple and readable; prefer simpler implementations where possible. Don't take on the coding style of fetched pages.
 - Keep all notes extremely brief, just what was explicitly discussed.
+- Claude can only read inside this repo. For scratch files, use `./tmp/` (gitignored), not `/tmp` or the scratchpad.

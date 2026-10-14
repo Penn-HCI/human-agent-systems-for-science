@@ -1,0 +1,1 @@
+- Never try to read `~/capsule-data`; use the capsule `ask` tool instead.

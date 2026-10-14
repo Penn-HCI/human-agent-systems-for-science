@@ -1,0 +1,14 @@
+.callout[data-callout="affirmed"] {
+  --callout-color: 46, 160, 67;
+  --callout-icon: lucide-check-circle;
+}
+
+.callout[data-callout="agent"] {
+  --callout-color: 130, 130, 130;
+  --callout-icon: lucide-bot;
+}
+
+.callout[data-callout="evidence"] {
+  --callout-color: 90, 120, 200;
+  --callout-icon: lucide-flask-conical;
+}
