@@ -22,3 +22,9 @@
 ## [2026-10-14] revision | Removed the HALIE paper from the wiki
 - So that analysis of the other HALIE tasks is de novo, moved the HALIE paper and its note to `../excluded-halie-paper/`.
 - Removed its index line and a HALIE QA result from [[li-2024-iqa-eval-automatic-evaluation-human]]. Mixed is now 8 papers.
+
+## [2026-10-14] investigation | Output vs. interaction quality (other four tasks)
+- Proposed which slices count as AI output vs. interaction quality for dialogue, QA, summarization and metaphor. The user wasn't satisfied with it, but said to proceed; noted in [[ai-output-quality]] and [[interaction-quality]].
+- Added [[output-vs-interaction-quality-other-tasks]], its details note, and [[halie-other-tasks]].
+- Added `analysis/{question,metaphor}_judge.py` (Claude Haiku labels via `claude -p`) and `analysis/{question,dialogue,summarization,metaphor}_analysis.py`.
+- The session transcript wasn't saved: the sandbox blocks reading `~/.claude`.

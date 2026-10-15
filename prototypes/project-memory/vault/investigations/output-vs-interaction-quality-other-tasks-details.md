@@ -23,7 +23,10 @@ No dataset labels AI responses directly in QA or metaphor, so Claude Haiku (thro
 - **QA** (`analysis/question_judge.py`): the judge says which choice, if any, each response asserts, and the answer key decides correctness. In a by-eye check of 20 labels, about 18 were right, and the misses leaned toward "none".
 - **Metaphor** (`analysis/metaphor_judge.py`): the judge rates apt, specific and imageable. On final sentences it agrees only weakly with the third-party raters (ρ = 0.33, n = 357), so treat the suggestion scores as a rough measure.
 
+One of 3,163 QA responses is still unlabeled, because the sandbox later blocked the `claude` CLI. The analysis skips it.
+
 > [!evidence]- Re-run everything
+> Inside Claude Code's sandbox, first point `uv` at writable folders: `export UV_CACHE_DIR="$TMPDIR/uv-cache" UV_PYTHON_INSTALL_DIR="$TMPDIR/uv-python"`.
 > ```
 > uv run analysis/question_judge.py     # cached; only labels what's missing
 > uv run analysis/metaphor_judge.py

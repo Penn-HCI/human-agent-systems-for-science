@@ -3,6 +3,8 @@
 ## Investigations
 - [[output-vs-interaction-quality-crossword]] — Crossword: better AI output goes with a better experience (mostly between models), but not with task success.
 - [[output-vs-interaction-quality-crossword-details]] — Methods, the full results table and caveats for the investigation above.
+- [[output-vs-interaction-quality-other-tasks]] — Dialogue, QA, summarization, metaphor: independent quality scores rarely track experience; in QA, people followed the AI's answer, right or wrong.
+- [[output-vs-interaction-quality-other-tasks-details]] — Measures on each side, LLM judges, checks and caveats for the investigation above.
 
 ## Concepts
 - [[ai-output-quality]] — How good the AI's responses are: measured from the logs (gave the answer, degenerate) and perceived (fluency, helpfulness).
@@ -10,6 +12,7 @@
 
 ## Datasets
 - [[halie-crossword-raw]] — The raw HALIE crossword logs, puzzles and survey, and their quirks.
+- [[halie-other-tasks]] — HALIE dialogue, QA, summarization and metaphor data, and their quirks.
 
 ## Related work
 Grouped by how each paper answers: do output quality metrics correlate with the human experience?
