@@ -105,6 +105,24 @@ Fill out the submission form here. Be ready to provide a _public_ link to your G
 
 <!-- # Debt
 
+Updated pitch for this assignment:
+It's easy to build a compelling scientific discovery agent
+Including one that shows its work
+And produces a replication package
+And an audit trail of its own work
+(Those are the requirements)
+
+Point out the different parts of the agent.
+(I want you to see the various pieces)
+
+But it's not quite right
+What's wrong with yours?
+What are the differences?
+Which do you *want* to make it do better?
+Make the edits to it.
+
+=====
+
 Need to figure out how sandboxing works on Mac.
 
 Tips for students who are using Claude Code for the first time:
