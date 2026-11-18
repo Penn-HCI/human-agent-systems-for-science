@@ -8,3 +8,5 @@ Make the code as simple and readable as possible.
 In general - it's far better to have fewer features and exactly what I say and a simple architecture that is easy to read an extend than to have more bells and whistles.
 
 We can skip tests.
+
+As we add new elements, I want to be able to add more annotations to each of them.
