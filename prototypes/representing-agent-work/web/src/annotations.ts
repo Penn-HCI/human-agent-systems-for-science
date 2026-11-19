@@ -43,6 +43,17 @@ export function useAnnotations() {
   return { annotations, add, update, remove };
 }
 
+// The quoted passages that notes on `target` are anchored to.
+export function quotesFor(annotations: Annotation[], target: string): string[] {
+  return annotations.flatMap((a) => (a.target === target && a.anchor && "quote" in a.anchor ? [a.anchor.quote] : []));
+}
+
+// A short description of what a note is anchored to.
+export function anchorSummary(anchor: Anchor): string {
+  if ("lines" in anchor) return `Lines ${anchor.lines[0]}–${anchor.lines[1]}`;
+  return anchor.quote.length > 120 ? `“${anchor.quote.slice(0, 120)}…”` : `“${anchor.quote}”`;
+}
+
 // Shares the notes (and ways to change them) with any component that shows them.
 export const NotesContext = createContext<ReturnType<typeof useAnnotations>>({
   annotations: [],

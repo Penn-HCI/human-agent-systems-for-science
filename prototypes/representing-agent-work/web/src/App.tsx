@@ -5,6 +5,7 @@ import {
   ReactFlowProvider,
   Controls,
   Handle,
+  NodeToolbar,
   Position,
   useNodesState,
   useEdgesState,
@@ -18,9 +19,11 @@ import "@xyflow/react/dist/style.css";
 import { loadTree, type ClaimTree, type Paper, type Score, type Status } from "./tree";
 import { CLAIM_SPANS } from "./claimSpans";
 import { highlight } from "./highlight";
-import { NotesContext, useAnnotations } from "./annotations";
+import { NotesContext, anchorSummary, useAnnotations } from "./annotations";
 import NotesPane from "./NotesPane";
-import EvidencePane, { type Evidence } from "./EvidencePane";
+import EvidencePane, { type Evidence, type Focus } from "./EvidencePane";
+import ChatPane from "./ChatPane";
+import { AskContext, buildIndex, type AskAnchor } from "./ask";
 
 const STATUS_COLORS: Record<Status, string> = {
   supported: "#c8e6c9",
@@ -29,7 +32,7 @@ const STATUS_COLORS: Record<Status, string> = {
 };
 
 // What the right-hand pane shows: all notes, one piece of evidence, or nothing.
-type Panel = { kind: "notes" } | { kind: "evidence"; evidence: Evidence } | null;
+type Panel = { kind: "notes" } | { kind: "evidence"; evidence: Evidence; focus?: Focus } | null;
 const SetPanel = createContext<(panel: Panel) => void>(() => {});
 
 type ClaimNodeData = {
@@ -56,13 +59,58 @@ type TreeNode = ClaimNode | EvidenceNode;
 // The subclaim currently hovered or selected, if any.
 const ActiveSubclaim = createContext<string | null>(null);
 
-function useNoteCount(targets: string[]): number {
-  const { annotations } = useContext(NotesContext);
-  return annotations.filter((a) => targets.includes(a.target)).length;
-}
-
 function noteCountText(count: number): string {
   return `${count} ${count === 1 ? "note" : "notes"}`;
+}
+
+// A one-line preview of the notes on a card. Clicking it opens all the notes in a popover
+// below the card. The line is always shown so cards keep the same size (and layout) as notes change.
+function NotesPreview({ targets }: { targets: string[] }) {
+  const { annotations } = useContext(NotesContext);
+  const [open, setOpen] = useState(false);
+  const notes = annotations.filter((a) => targets.includes(a.target));
+  const lineStyle = { marginTop: 6, fontSize: 13, color: "#555" } as const;
+  if (notes.length === 0) return <div style={lineStyle}>No notes yet</div>;
+
+  return (
+    <>
+      <div
+        className="nodrag"
+        onClick={(e) => {
+          e.stopPropagation(); // don't also open the evidence pane
+          setOpen(!open);
+        }}
+        style={{ ...lineStyle, cursor: "pointer", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+      >
+        {open ? "▾" : "▸"} {noteCountText(notes.length)}: {notes.at(-1)!.text || "(empty)"}
+      </div>
+      {/* NodeToolbar draws above all cards, so opening it doesn't disturb the layout. */}
+      <NodeToolbar isVisible={open} position={Position.Bottom}>
+        <div
+          className="nowheel"
+          style={{
+            width: 340,
+            maxHeight: 300,
+            overflowY: "auto",
+            background: "#fffde7",
+            border: "1px solid #bbb",
+            borderRadius: 6,
+            padding: 10,
+            fontSize: 14,
+            lineHeight: 1.5,
+          }}
+        >
+          {notes.map((a) => (
+            <div key={a.id} style={{ marginBottom: 10 }}>
+              {targets.length > 1 && <div style={{ color: "#777", fontSize: 12 }}>{noteLabels[a.target]}</div>}
+              {a.anchor && <div style={{ color: "#555", fontStyle: "italic" }}>{anchorSummary(a.anchor)}</div>}
+              <div style={{ whiteSpace: "pre-wrap" }}>{a.text || "(empty)"}</div>
+            </div>
+          ))}
+        </div>
+      </NodeToolbar>
+    </>
+  );
 }
 
 // The claim or a subclaim: a bold title, a few detail lines, (for the claim) its text, then notes.
@@ -71,7 +119,7 @@ function ClaimNodeView({ id, data }: NodeProps<ClaimNode>) {
   const phrases = active ? CLAIM_SPANS[active] ?? [] : [];
   const { add } = useContext(NotesContext);
   const setPanel = useContext(SetPanel);
-  const count = useNoteCount([id]);
+  const ask = useContext(AskContext);
   return (
     <div
       style={{
@@ -81,7 +129,7 @@ function ClaimNodeView({ id, data }: NodeProps<ClaimNode>) {
         border: `${data.bottleneck ? 4 : 1}px solid #555`,
         borderRadius: 8,
         fontSize: 16,
-        lineHeight: 1.35,
+        lineHeight: 1.5,
       }}
     >
       <Handle type="target" position={Position.Left} style={{ opacity: 0 }} />
@@ -103,7 +151,19 @@ function ClaimNodeView({ id, data }: NodeProps<ClaimNode>) {
         >
           Add note
         </button>{" "}
-        {noteCountText(count)}
+        <button
+          className="nodrag"
+          onClick={() =>
+            ask({
+              label: id === "root" ? "the claim" : `subclaim ${id}`,
+              target: id,
+              text: [data.title, ...data.details, data.text ?? ""].join("\n"),
+            })
+          }
+        >
+          Ask Claude
+        </button>
+        <NotesPreview targets={[id]} />
       </div>
       <Handle type="source" position={Position.Right} style={{ opacity: 0 }} />
     </div>
@@ -112,7 +172,6 @@ function ClaimNodeView({ id, data }: NodeProps<ClaimNode>) {
 
 // An experiment or a group of papers. Clicking it opens the evidence pane.
 function EvidenceNodeView({ data }: NodeProps<EvidenceNode>) {
-  const count = useNoteCount(data.noteTargets);
   return (
     <div
       style={{
@@ -122,7 +181,7 @@ function EvidenceNodeView({ data }: NodeProps<EvidenceNode>) {
         border: "1px solid #888",
         borderRadius: 6,
         fontSize: 15,
-        lineHeight: 1.3,
+        lineHeight: 1.45,
         cursor: "pointer",
       }}
     >
@@ -133,7 +192,8 @@ function EvidenceNodeView({ data }: NodeProps<EvidenceNode>) {
           {line}
         </div>
       ))}
-      <div style={{ marginTop: 6, fontSize: 13, color: "#666" }}>Click to open · {noteCountText(count)}</div>
+      <div style={{ marginTop: 6, fontSize: 13, color: "#666" }}>Click to open</div>
+      <NotesPreview targets={data.noteTargets} />
     </div>
   );
 }
@@ -256,6 +316,19 @@ for (const sc of tree.subclaims) {
 }
 for (const paper of tree.papers) noteLabels[paper.id] = `Paper ${paper.title} (whole claim)`;
 
+// Every app item Claude can cite, and the evidence pane that shows each one.
+const evidenceIndex = buildIndex(tree, noteLabels);
+const evidenceFor: Record<string, Evidence> = {};
+for (const node of initial.nodes) {
+  if (node.type !== "evidence") continue;
+  const evidence = node.data.evidence;
+  if (evidence.kind === "experiment") {
+    for (const tab of NOTE_TABS) evidenceFor[`${evidence.experiment.id}:${tab}`] = evidence;
+  } else {
+    for (const paper of evidence.papers) evidenceFor[paper.id] = evidence;
+  }
+}
+
 function ClaimTreeGraph() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initial.nodes);
   const [edges, , onEdgesChange] = useEdgesState(initial.edges);
@@ -301,9 +374,20 @@ function ClaimTreeGraph() {
 export default function App() {
   const notes = useAnnotations();
   const [panel, setPanel] = useState<Panel>(null);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [askAnchor, setAskAnchor] = useState<AskAnchor | null>(null);
+
+  const ask = (anchor: AskAnchor) => {
+    setAskAnchor(anchor);
+    setChatOpen(true);
+  };
+  // Show a cited passage in the evidence pane, if the app has a pane for it.
+  const openCited = (target: string, quote: string) => {
+    if (evidenceFor[target]) setPanel({ kind: "evidence", evidence: evidenceFor[target], focus: { target, quote } });
+  };
 
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", padding: "0 24px" }}>
+    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: 1.6, padding: "0 24px" }}>
       <h1>Claim 515: claim tree</h1>
       <p style={{ color: "#555" }}>
         Colors show the agent's judgment: green = supported, red = not supported, gray = experiment
@@ -314,35 +398,49 @@ export default function App() {
       </p>
       <button onClick={() => setPanel(panel?.kind === "notes" ? null : { kind: "notes" })} style={{ marginBottom: 8 }}>
         {panel?.kind === "notes" ? "Hide notes" : `Show all notes (${notes.annotations.length})`}
+      </button>{" "}
+      <button onClick={() => setChatOpen(!chatOpen)} style={{ marginBottom: 8 }}>
+        {chatOpen ? "Hide chat" : "Ask Claude"}
       </button>
       <NotesContext.Provider value={notes}>
         <SetPanel.Provider value={setPanel}>
-          <div style={{ display: "flex", height: "80vh", border: "1px solid #ddd" }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <ReactFlowProvider>
-                <ClaimTreeGraph />
-              </ReactFlowProvider>
-            </div>
-            {panel && (
-              <div
-                style={{
-                  width: panel.kind === "notes" ? 380 : "45%",
-                  overflowY: "auto",
-                  borderLeft: "1px solid #ddd",
-                  padding: "0 16px",
-                }}
-              >
-                <div style={{ textAlign: "right", marginTop: 8 }}>
-                  <button onClick={() => setPanel(null)}>Close</button>
-                </div>
-                {panel.kind === "notes" ? (
-                  <NotesPane labels={noteLabels} />
-                ) : (
-                  <EvidencePane evidence={panel.evidence} />
-                )}
+          <AskContext.Provider value={ask}>
+            {/* Graph on top, details pane below (suits a vertical screen). */}
+            <div style={{ display: "flex", flexDirection: "column", height: "90vh", border: "1px solid #ddd" }}>
+              <div style={{ flex: 1, minHeight: 0 }}>
+                <ReactFlowProvider>
+                  <ClaimTreeGraph />
+                </ReactFlowProvider>
               </div>
-            )}
-          </div>
+              {/* Bottom pane: evidence or notes on the left, chat with Claude on the right. */}
+              {(panel || chatOpen) && (
+                <div style={{ height: "55%", display: "flex", borderTop: "1px solid #ddd" }}>
+                  {panel && (
+                    <div style={{ flex: 1, minWidth: 0, overflowY: "auto", padding: "0 16px" }}>
+                      <div style={{ textAlign: "right", marginTop: 8 }}>
+                        <button onClick={() => setPanel(null)}>Close</button>
+                      </div>
+                      {panel.kind === "notes" ? (
+                        <NotesPane labels={noteLabels} />
+                      ) : (
+                        <EvidencePane evidence={panel.evidence} focus={panel.focus} />
+                      )}
+                    </div>
+                  )}
+                  {chatOpen && (
+                    <div style={{ flex: 1, minWidth: 0, borderLeft: "1px solid #ddd", padding: "0 16px 8px" }}>
+                      <ChatPane
+                        index={evidenceIndex}
+                        anchor={askAnchor}
+                        onClearAnchor={() => setAskAnchor(null)}
+                        onOpen={openCited}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </AskContext.Provider>
         </SetPanel.Provider>
       </NotesContext.Provider>
     </div>

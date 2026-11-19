@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NotesContext, type Anchor } from "./annotations";
 import { lineElementId } from "./CodeView";
 
@@ -19,15 +19,33 @@ function AnchorLabel({ target, anchor }: { target: string; anchor: Anchor }) {
   );
 }
 
-// The notes about one element, editable, with a button to add another.
-export function NotesBlock({ target }: { target: string }) {
+// The notes about one element, editable, with a button to add another. Starts collapsed to a
+// one-line summary (unless `startOpen`); a just-added, still-empty note opens it automatically.
+export function NotesBlock({ target, startOpen = false }: { target: string; startOpen?: boolean }) {
   const { annotations, add, update, remove } = useContext(NotesContext);
+  const [open, setOpen] = useState(startOpen);
+  const notes = annotations.filter((a) => a.target === target);
+
+  // Open (and stay open) when a new, still-empty note is added, so it can be typed into.
+  const hasEmptyNote = notes.some((a) => a.text === "");
+  useEffect(() => {
+    if (hasEmptyNote) setOpen(true);
+  }, [hasEmptyNote]);
+
   return (
     <div>
-      {annotations
-        .filter((a) => a.target === target)
-        .map((a) => (
-          <div key={a.id} style={{ marginBottom: 8 }}>
+      {notes.length > 0 && (
+        <div
+          onClick={() => setOpen(!open)}
+          style={{ cursor: "pointer", color: "#555", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}
+        >
+          {open ? "▾" : "▸"} {notes.length} {notes.length === 1 ? "note" : "notes"}
+          {!open && `: ${notes.at(-1)!.text}`}
+        </div>
+      )}
+      {open &&
+        notes.map((a) => (
+          <div key={a.id} style={{ margin: "6px 0 8px" }}>
             {a.anchor && <AnchorLabel target={target} anchor={a.anchor} />}
             <textarea
               value={a.text}
@@ -55,7 +73,7 @@ export default function NotesPane({ labels }: { labels: Record<string, string> }
       {targets.map((target) => (
         <section key={target} style={{ marginBottom: 20 }}>
           <h3 style={{ fontSize: 15, marginBottom: 6 }}>{labels[target] ?? target}</h3>
-          <NotesBlock target={target} />
+          <NotesBlock target={target} startOpen />
         </section>
       ))}
     </div>

@@ -100,7 +100,58 @@ What evidence is the agent basing its "+1" off of? ✏️
 How likely do _you_ think the claim is to be true (-2 to 2)? ✏️
 What is _your_ confidence (from 0–100%)? ✏️
 Why? ✏️
-What features were necessary in the evidence view for you to come to this understanding? ✏️ [man, you cannot beat the flexibilty and speed of QA. I kind of which I could just buidl up a case through QA, and then get a sense of how complete of a job I have done. I guess the big question is canvas vs. QA and I feel like I want the canvas to know how comprehensive a job I have done and QA to just move fast and flexibly]
+What features were necessary in the evidence view for you to come to this understanding? ✏️ [man, you cannot beat the flexibilty and speed of QA. I kind of which I could just buidl up a case through QA, and then get a sense of how complete of a job I have done. I guess the big question is canvas vs. QA and I feel like I want the canvas to know how comprehensive a job I have done and QA to just move fast and flexibly. Here is a prompt that I wrote to try to get QA integrated: `Thanks, nice! Okay, for the next trick... When I make a note on it, I want to show it --- on the subclaim node, or the evidence viewer. Don't take up too much space, maybe show just a little at first that I can then expand. Do that first, then let's start planning --- I want a way to call Claude Code (you) from within the app, anchored on particular bits of information, to ask questions and fetch additional information. You can fill in some kind of chat window (maybe it's a split in the bottom pane), and I want you to be able to point out particular pieces of evidence (lines of code, parts of extracted excerpts, parts of results) that help answer those questions, if relevant. You can help me check this plan before we do it, as I want to still do it very simply and reliably... Good, though... * for "target is an ID the app already uses, like 515-sc4:code or a paper ID." --- if the right evidence _isn't_ yet in the app, then you can still find it and show it in the chat. * #1 no network calls --- can you just call claude through "claude -p" and doesn't this solve that issue? * #2, if we use claude -p, can you start in the "data/claim515-results" directory so that you have access to those files for additional context? * ... as we work through upcoming steps that involve web access and permissions, can we walk through them slowly with my confirmation so that I know what's going on? * #3, only fetch additional trace info * #4, let's stream if possible and there's a simple way to do it, let's do markdown format, and skip the "Save as note" button`] [Note: this part has been hard --- it takes a lot of engineering to get this system to be one that has Claude plugged in in a way that I am comfortable with. I think the main finding is that it takes a ton of work to make a functional evidence browser, and I probably _would_ be better served by just using basic QA over some period of time.] [I've had to add some extra prompts to ]
+
+Here is an accelerator for adding an "Ask Claude" feature:
+
+```
+Add a chat with Claude to my trace viewer. Follow these requirements exactly; where a choice isn't
+specified, use the default given. Keep the implementation as simple and readable as possible, and
+ask me before adding any dependency.
+
+## How Claude is called
+- Call my local Claude Code with `claude -p`, nothing else. Put this call, and all process/network
+  code, in ONE small, clearly commented file/function. The app makes no other network calls and
+  writes no files.
+- Run it with the trace folder (e.g. `data/claim515-results`) as the working directory, pass the
+  prompt on stdin, and use exactly these flags:
+  `claude -p --tools Read Grep Glob --permission-mode dontAsk --restricted --strict-mcp-config
+   --output-format stream-json --verbose --include-partial-messages`
+  Add `--resume <session_id>` for follow-up questions (take session_id from the final "result" event).
+- Do NOT use `--allowedTools Read`: a bare Read rule approves reading files anywhere on disk.
+- Before wiring this into the UI, walk me through testing the command in my terminal, one step at a
+  time: (1) a question about the trace that it answers, (2) a request to read a file outside the
+  folder, e.g. `../../assignment.md`, which must be refused. Show me each command and wait for my
+  confirmation before running anything that touches permissions or the network.
+
+## Anchoring
+- Let me start a question from a specific thing: a node/card, a selected passage of text, selected
+  lines of code, or an experiment result. Show what the question is about, and include its text
+  (with line numbers for code) in the prompt.
+
+## Citations that point at evidence
+- Have Claude back up its answers with citations: each one names an item my UI shows (or, failing
+  that, a trace file) and quotes exact text from it.
+- Verify every quote against its item's text or file (ignore whitespace differences; for JSON
+  files, also try with escapes like \n and \" undone), and mark citations that don't check out.
+- Clicking a verified citation opens that item in the UI, scrolls to it, and highlights the quote
+  (for code, the matching lines). Citations of files the UI doesn't show are listed with their path
+  and quote.
+
+## Defaults (don't ask me about these)
+- Chat lives in a split of the existing details panel; answers stream in as they arrive and render
+  as Markdown (tables included).
+- While waiting, show that Claude is working, plus its latest tool call.
+- Keep the conversation across page refreshes; add a way to start a new chat.
+- No other features.
+```
+
+# Lesson 6... go back to QA again?
+
+When did you actually look at the evidence?
+
+... What do you want from these various representations?
+[for me, I think it is the ability to pull a bunch of findings together in one place.]
 
 # Lesson 6. What can I learn about a scientific discovery trace run on my own data?
 

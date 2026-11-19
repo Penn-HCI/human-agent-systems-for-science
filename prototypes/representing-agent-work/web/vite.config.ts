@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
+import { askClaude } from "./askClaude";
 
 const WRITER_SESSION = "../data/claim515-results/sandbox/sessions/bbc19fc7c78b.json";
 
@@ -30,7 +31,7 @@ function writingInputs(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [react(), writingInputs()],
+  plugins: [react(), writingInputs(), askClaude()],
   // The trace data lives one folder up, in ../data.
   server: { fs: { allow: [".."] } },
 });
